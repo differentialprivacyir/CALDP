@@ -8,18 +8,15 @@ import itertools
 import multiprocessing
 from statistics import mean
 import matplotlib.pyplot as plt
-from time import time
-from datetime import timedelta
 from server import Server
 from client import Client
 
 epsilon = 1
 fixthreshold = 0.8
-maxthreshold = 1
-calperpoint = 2
+calperpoint = 50
 domain = 20
-client_number = 10
-maxdays = 3
+client_number = 10000
+maxdays = 30
 
 
 class CorrelationCal:
