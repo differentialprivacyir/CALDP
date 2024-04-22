@@ -7,7 +7,7 @@ from minepy import MINE
 
 
 class Client():
-    def __init__(self, epsilon, d, corr=None, maxcorr=None, allcorr = None):
+    def __init__(self, epsilon, d, corr=True, maxcorr=None, allcorr = None):
         self.epsilon = epsilon
         self.domain = d
         self.corr = corr
@@ -57,10 +57,11 @@ class Client():
 
 
 class CorrelationCal:
-    def __init__(self, data):
+    def __init__(self, data, fixthreshold = None):
         self.data = data
         self.n_rows = data.shape[0]
         self.n_cols = data.shape[1]
+        self.fixthreshold = fixthreshold
     
     # Return unique list of tuples from domain
     def TupleGen (self, domain):
@@ -95,7 +96,8 @@ class CorrelationCal:
         joinprobmatrix = []
         for item in tuples:
             joinprob = self.TupleJointProb(item)
-            joinprobmatrix.append([tuple(item), joinprob])
+            if joinprob >= self.fixthreshold:
+                joinprobmatrix.append([tuple(item), joinprob])
         
         return joinprobmatrix
     
@@ -125,5 +127,6 @@ class CorrelationCal:
                 totalpairs += np.shape(np.asarray(pairs in list(self.pairwise(list(self.data[x_index])))).nonzero())[1]
             prob = totalpairs / totaltransition
 
-            transitionMatrix.append([tuple(pairs), prob])
+            if prob >= self.fixthreshold:
+                transitionMatrix.append([tuple(pairs), prob])
         return transitionMatrix

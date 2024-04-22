@@ -6,7 +6,7 @@ import pandas as pd
 
 domain_size = 20
 locperday = 10
-client_number = 10000
+client_number = 100
 days = 30
 
 alldata = []
